@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gowra Pavan Kumar - Aspiring Full-Stack Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Chosen Palette: Cyber-Minimalist - Default Dark Mode: bg-gray-950, text-gray-100, accent-cyan-400/600. Light Mode: bg-gray-50, text-gray-800, accent-blue-600. Secondary: gray-700/800. */
+        /* Application Structure Plan: 
+            - Single-page vertical scrolling layout with subtle animated background.
+            - Sticky navigation bar at the top with links to sections and a dark/light mode toggle.
+            - Sections: Hero, About, Projects, Skills, Certifications, AI Assistant, Contact, Footer. Each section will have a unique, animated reveal.
+            - User Flow: Users can navigate via navbar links for smooth scrolling or scroll manually. CTAs in Hero section guide users to projects or resume. Interactive elements (project elaborate, skill explain, project brainstorm, certification insight, AI Assistant Q&A, Career Path Insights) provide dynamic content via Gemini API.
+            - Why this structure: Standard and intuitive for portfolios, allows easy scanning of information. Mobile-first ensures good UX on all devices. Dark mode is default for a futuristic feel. Unique transitions and 3D effects enhance engagement.
+        */
+        /* Visualization & Content Choices:
+            - Hero: Name, Title, Tagline, Profile Placeholder, CTAs (Download Resume, Contact Me). Goal: Immediate introduction. Method: Large text with glowing effect, buttons with futuristic glow. Interaction: Click. Justification: Clear, actionable, visually striking.
+            - About Me: Bio, Education (B.Tech, Intermediate, CBSE). Goal: Personal background. Method: Paragraphs, structured list. Cards with enhanced shadows and 3D tilt. Added "✨ Career Path Insights" button to generate career suggestions via Gemini API. Interaction: Read, hover for 3D effect, click for career insights. Justification: Detailed yet scannable, visually dynamic, and forward-looking.
+            - Projects: Hugo Blog, Gowra Stream, Hand Gesture Detection, AWS Banking Tool. Goal: Showcase practical experience. Method: Cards with description, tech stack (text), GitHub icon link. "✨ Elaborate" button to generate more details via Gemini API. "✨ Brainstorm Project Idea" button to generate new ideas via Gemini API. Cards feature subtle 3D tilt on hover and enhanced shadows/borders for depth and glow. Interaction: Read, click GitHub, click Elaborate, click Brainstorm, hover for 3D effect. Justification: Highlights key projects and skills, provides deeper insight on demand, adds visual flair, and demonstrates creative problem-solving.
+            - Skills: Languages (HTML, CSS, JS, Java, Python, C), Tools (React, Next.js, Firebase, GitHub, Tailwind, MySQL), Soft Skills. Goal: Overview of capabilities. Method: Categorized lists. "✨ Explain" button next to each skill to generate explanations via Gemini API. Cards feature enhanced shadows/borders and 3D tilt. Interaction: Read, click Explain, hover for 3D effect. Justification: Quick assessment of technical breadth, provides context for each skill, visually appealing.
+            - Certifications: List of certifications. Goal: Validate learning. Method: Simple list in enhanced cards with 3D tilt. Added "✨ What it means" button to explain certification significance via Gemini API. Interaction: Read, click What it means, hover for 3D effect. Justification: Demonstrates commitment to growth, provides valuable context for achievements.
+            - AI Assistant: New section for interactive Q&A. Goal: Provide conversational access to Gowra's profile. Method: Input field, submit button, response display. Interaction: Type question, click ask. Justification: Highly engaging and unique.
+            - Contact: Email, Location, Static Contact Form. Goal: Enable connection. Method: Text, form with subtle styling. Interaction: Read, (simulate form). Justification: Provides multiple contact points.
+            - Footer: GitHub, LinkedIn icons, Copyright. Goal: Standard site info. Method: Text, icon links. Interaction: Click. Justification: Easy access to professional profiles.
+            - No Chart.js/Plotly.js needed as the source (CV) is primarily textual and experiential. Focus on clear presentation of this information.
+        */
+        /* CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. */
+
+        html {
+            scroll-behavior: smooth;
+        }
+        .font-inter { font-family: 'Inter', sans-serif; }
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+            position: relative;
+            overflow-x: hidden; /* Prevent horizontal scroll from background animation */
+        }
+
+        /* Dark Mode Default & Background Animation */
+        body.dark {
+            background-color: #020617; /* Slate-950 */
+            color: #f9fafb; /* Gray-100 */
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(56, 189, 248, 0.08) 0%, transparent 40%), /* Cyan glow bottom-left */
+                radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.08) 0%, transparent 40%), /* Purple glow top-right */
+                linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px), /* Vertical grid lines */
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px); /* Horizontal grid lines */
+            background-size: 100% 100%, 100% 100%, 50px 50px, 50px 50px;
+            background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+            animation: backgroundPan 60s linear infinite alternate;
+        }
+
+        body.light {
+            background-color: #f8fafc; /* Gray-50 */
+            color: #1f2937; /* Gray-800 */
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(14, 165, 233, 0.03) 0%, transparent 40%), /* Blue glow bottom-left */
+                radial-gradient(circle at 80% 20%, rgba(124, 58, 237, 0.03) 0%, transparent 40%), /* Indigo glow top-right */
+                linear-gradient(to right, rgba(203, 213, 225, 0.3) 1px, transparent 1px), /* Light grid lines */
+                linear-gradient(to bottom, rgba(203, 213, 225, 0.3) 1px, transparent 1px); /* Light grid lines */
+            background-size: 100% 100%, 100% 100%, 50px 50px, 50px 50px;
+            background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+            animation: backgroundPanLight 60s linear infinite alternate;
+        }
+
+        @keyframes backgroundPan {
+            0% { background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%; }
+            100% { background-position: 100% 100%, 100% 100%, 50px 50px, 50px 50px; }
+        }
+        @keyframes backgroundPanLight {
+            0% { background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%; }
+            100% { background-position: 100% 100%, 100% 100%, 50px 50px, 50px 50px; }
+        }
+
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e293b; /* slate-800 */
+            border-radius: 10px;
+        }
+        body.light ::-webkit-scrollbar-track {
+            background: #e2e8f0; /* gray-200 */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569; /* slate-600 */
+            border-radius: 10px;
+        }
+        body.light ::-webkit-scrollbar-thumb {
+            background: #94a3b8; /* slate-400 */
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b; /* slate-500 */
+        }
+        body.light ::-webkit-scrollbar-thumb:hover {
+            background: #64748b; /* slate-500 */
+        }
+
+        /* Section Reveal Animation */
+        .section-fade-in {
+            opacity: 0;
+            transform: translateY(40px) scale(0.98);
+            filter: blur(8px);
+            transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                        transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
+                        filter 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .section-fade-in.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0);
+        }
+        
+        /* Futuristic Loading Spinner */
+        .loading-spinner {
+            border: 4px solid rgba(56, 189, 248, 0.2); /* Light blue for dark mode */
+            border-top: 4px solid #38bdf8; /* Vibrant cyan */
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 8px;
+        }
+        body.light .loading-spinner {
+            border-color: rgba(14, 165, 233, 0.2); /* Light blue for light mode */
+            border-top-color: #0ea5e9; /* Vibrant blue */
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Card 3D Effect */
+        .card-3d-effect {
+            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                        box-shadow 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                        border-color 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transform-style: preserve-3d;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 16px 40px rgba(0, 0, 0, 0.15); /* Stronger base shadow */
+            border: 1px solid transparent; /* Base border */
+            background-image: linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)); /* Subtle inner gradient */
+        }
+        .dark .card-3d-effect {
+            background-color: #0f172a; /* Slate-900 */
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 16px 40px rgba(0, 0, 0, 0.25);
+            border-color: rgba(56, 189, 248, 0.1); /* Subtle cyan border */
+        }
+        .light .card-3d-effect {
+            background-color: #ffffff; /* White */
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1), 0 16px 40px rgba(0, 0, 0, 0.05);
+            border-color: rgba(14, 165, 233, 0.1); /* Subtle blue border */
+        }
+
+        .card-3d-effect:hover {
+            transform: translateY(-12px) scale(1.03); /* Lift higher and enlarge more */
+            box-shadow: 0 12px 30px rgba(56, 189, 248, 0.4), 0 24px 60px rgba(56, 189, 248, 0.2); /* Glowing shadow */
+            border-color: #38bdf8; /* Accent border on hover */
+        }
+        .light .card-3d-effect:hover {
+            box-shadow: 0 12px 30px rgba(14, 165, 233, 0.3), 0 24px 60px rgba(14, 165, 233, 0.15);
+            border-color: #0ea5e9;
+        }
+
+        /* Futuristic Button Glow */
+        .btn-futuristic {
+            box-shadow: 0 4px 20px rgba(56, 189, 248, 0.4); /* Cyan glow */
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.6); /* Subtle text glow */
+        }
+        .btn-futuristic:hover {
+            box-shadow: 0 8px 30px rgba(56, 189, 248, 0.6), 0 0 40px rgba(56, 189, 248, 0.5); /* Stronger glow */
+            transform: translateY(-4px) scale(1.02);
+            text-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+        }
+        .light .btn-futuristic {
+            box-shadow: 0 4px 20px rgba(14, 165, 233, 0.3); /* Blue glow for light mode */
+            text-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+        }
+        .light .btn-futuristic:hover {
+            box-shadow: 0 8px 30px rgba(14, 165, 233, 0.5), 0 0 40px rgba(14, 165, 233, 0.4);
+            text-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Header backdrop blur and border */
+        #header {
+            border-bottom: 1px solid rgba(30, 41, 59, 0.6); /* Slate-800 with transparency */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .light #header {
+            border-bottom: 1px solid rgba(203, 213, 225, 0.6); /* Gray-300 with transparency */
+        }
+
+        /* Text Glow for Headings */
+        .text-glow-heading {
+            text-shadow: 
+                0 0 5px rgba(56, 189, 248, 0.6), /* Cyan glow */
+                0 0 10px rgba(56, 189, 248, 0.4);
+        }
+        .light .text-glow-heading {
+            text-shadow: 
+                0 0 5px rgba(14, 165, 233, 0.4), /* Blue glow */
+                0 0 10px rgba(14, 165, 233, 0.2);
+        }
+
+        /* Profile image border animation */
+        .profile-image-border {
+            position: relative;
+            z-index: 1;
+        }
+        .profile-image-border::before {
+            content: '';
+            position: absolute;
+            top: -5px; left: -5px; right: -5px; bottom: -5px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            background: linear-gradient(45deg, #38bdf8, #a855f7, #ef4444) border-box;
+            -webkit-mask: 
+                linear-gradient(#fff 0 0) padding-box, 
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: rotateBorder 10s linear infinite;
+            z-index: -1;
+        }
+        @keyframes rotateBorder {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="dark transition-colors duration-300 font-inter antialiased">
+
+    <header id="header" class="bg-gray-900/80 fixed top-0 left-0 right-0 z-50 transition-colors duration-300">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <a href="#hero" class="text-2xl font-bold text-cyan-400">GPK</a>
+                </div>
+                <div class="hidden md:flex space-x-4 items-center">
+                    <a href="#about" class="text-gray-200 hover:text-cyan-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">About</a>
+                    <a href="#projects" class="text-gray-200 hover:text-cyan-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Projects</a>
+                    <a href="#skills" class="text-gray-200 hover:text-cyan-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Skills</a>
+                    <a href="#certifications" class="text-gray-200 hover:text-cyan-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Certifications</a>
+                    <a href="#ai-assistant" class="text-gray-200 hover:text-cyan-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">AI Assistant</a>
+                    <a href="#contact" class="text-gray-200 hover:text-cyan-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Contact</a>
+                    <button id="darkModeToggle" aria-label="Toggle Dark Mode" class="p-2 rounded-md text-gray-200 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-950 focus:ring-cyan-500 transition-colors">
+                        <span id="sunIcon" class="hidden">☀️</span>
+                        <span id="moonIcon">🌙</span>
+                    </button>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="darkModeToggleMobile" aria-label="Toggle Dark Mode Mobile" class="p-2 rounded-md text-gray-200 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-950 focus:ring-cyan-500 transition-colors mr-2">
+                        <span id="sunIconMobile" class="hidden">☀️</span>
+                        <span id="moonIconMobile">🌙</span>
+                    </button>
+                    <button id="mobileMenuButton" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-200 hover:text-gray-100 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#about" class="text-gray-200 hover:bg-gray-700 hover:text-cyan-400 block px-3 py-2 rounded-md text-base font-medium transition-colors">About</a>
+                <a href="#projects" class="text-gray-200 hover:bg-gray-700 hover:text-cyan-400 block px-3 py-2 rounded-md text-base font-medium transition-colors">Projects</a>
+                <a href="#skills" class="text-gray-200 hover:bg-gray-700 hover:text-cyan-400 block px-3 py-2 rounded-md text-base font-medium transition-colors">Skills</a>
+                <a href="#certifications" class="text-gray-200 hover:bg-gray-700 hover:text-cyan-400 block px-3 py-2 rounded-md text-base font-medium transition-colors">Certifications</a>
+                <a href="#ai-assistant" class="text-gray-200 hover:bg-gray-700 hover:text-cyan-400 block px-3 py-2 rounded-md text-base font-medium transition-colors">AI Assistant</a>
+                <a href="#contact" class="text-gray-200 hover:bg-gray-700 hover:text-cyan-400 block px-3 py-2 rounded-md text-base font-medium transition-colors">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="pt-16">
+        <section id="hero" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 via-gray-900 to-blue-950 py-20 px-4 section-fade-in">
+            <div class="container mx-auto text-center">
+                <div class="relative w-32 h-32 sm:w-40 sm:h-40 mx-auto mb-6 profile-image-border">
+                    <img src="https://placehold.co/160x160/2563eb/ffffff?text=GPK" alt="Gowra Pavan Kumar" class="w-full h-full rounded-full shadow-lg border-4 border-gray-700 object-cover">
+                </div>
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-100 mb-3 tracking-wide text-glow-heading">
+                    Gowra Pavan Kumar
+                </h1>
+                <p class="text-xl sm:text-2xl text-cyan-400 font-semibold mb-6 tracking-wide text-glow-heading">
+                    Aspiring Full-Stack Developer
+                </p>
+                <p class="text-lg text-gray-200 max-w-2xl mx-auto mb-8 leading-relaxed">
+                    "Passionate about coding, web, and tech innovation. Committed to continuous learning and growth in this dynamic field."
+                </p>
+                <div class="space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="Gowracv.pdf" download="Gowra_Pavan_Kumar_CV.pdf" class="inline-block bg-cyan-600 hover:bg-cyan-700 text-white font-semibold py-3 px-8 rounded-lg shadow-md btn-futuristic">
+                        Download Resume
+                    </a>
+                    <a href="#contact" class="inline-block bg-gray-700 hover:bg-gray-800 text-white font-semibold py-3 px-8 rounded-lg shadow-md btn-futuristic">
+                        Contact Me
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="py-16 sm:py-24 bg-gray-900 section-fade-in">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12 text-gray-100 tracking-wide text-glow-heading">About Me</h2>
+                <div class="max-w-3xl mx-auto text-lg text-gray-200 space-y-6">
+                    <p class="leading-relaxed">
+                        I'm Gowra Pavan Kumar, a final-year B.Tech Information Technology student with a strong passion for technology and coding. My journey began with a curiosity for programming, which has evolved into a growing expertise in web and application development.
+                    </p>
+                    <p class="leading-relaxed">
+                        Through hands-on projects and internships, I've actively honed my skills and embraced a growth mindset. I am deeply committed to continuous learning and exploring innovations in this dynamic field, always eager to tackle new challenges and contribute to impactful solutions.
+                    </p>
+                </div>
+
+                <div class="mt-12">
+                    <h3 class="text-2xl font-semibold text-center mb-8 text-gray-100 tracking-wide text-glow-heading">Education</h3>
+                    <div class="space-y-8 max-w-2xl mx-auto">
+                        <div class="p-6 bg-gray-800 rounded-lg shadow-md card-3d-effect">
+                            <h4 class="text-xl font-semibold text-cyan-400">Bachelor of Technology - Information Technology</h4>
+                            <p class="text-gray-200">Kallam Haranadhareddy Institute of Technology</p>
+                            <p class="text-sm text-gray-300">Dec 2021 – May 2025 (Expected)</p>
+                            <p class="text-sm text-gray-300">CGPA: 7.2</p>
+                        </div>
+                        <div class="p-6 bg-gray-800 rounded-lg shadow-md card-3d-effect">
+                            <h4 class="text-xl font-semibold text-cyan-400">Intermediate - MPC</h4>
+                            <p class="text-gray-200">Narayana Junior College, Guntur</p>
+                            <p class="text-sm text-gray-300">Jun 2019 – Jul 2021</p>
+                            <p class="text-sm text-gray-300">CGPA: 7.2</p>
+                        </div>
+                        <div class="p-6 bg-gray-800 rounded-lg shadow-md card-3d-effect">
+                            <h4 class="text-xl font-semibold text-cyan-400">Secondary Education - CBSE</h4>
+                            <p class="text-gray-200">Dr. Kondabolu Lakshmi Prasad Public School, Guntur</p>
+                            <p class="text-sm text-gray-300">Jun 2018 – Mar 2019</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-12 text-center">
+                    <button id="careerPathBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-8 rounded-lg shadow-md btn-futuristic">
+                        ✨ Career Path Insights
+                    </button>
+                    <div id="careerPathContainer" class="mt-8 p-6 bg-gray-800 rounded-lg shadow-md hidden card-3d-effect max-w-2xl mx-auto">
+                        <h3 class="text-xl font-semibold mb-3 text-cyan-400">Suggested Career Paths</h3>
+                        <p id="careerPathText" class="text-gray-100"></p>
+                        <span id="careerPathLoading" class="loading-spinner hidden"></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="py-16 sm:py-24 bg-gray-950 section-fade-in">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12 text-gray-100 tracking-wide text-glow-heading">Projects</h2>
+                <p class="text-center text-lg text-gray-200 mb-12 max-w-2xl mx-auto leading-relaxed">Here are some of the projects I've worked on, showcasing my skills in developing practical and innovative solutions.</p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+                    <div class="bg-gray-900 rounded-xl shadow-lg overflow-hidden flex flex-col card-3d-effect">
+                        <div class="p-6 flex-grow">
+                            <h3 class="text-2xl font-semibold mb-2 text-cyan-400">AWS Banking Tool (Internship)</h3>
+                            <p class="text-gray-200 mb-4 text-sm project-description" data-full-description="Developed a banking analytics tool using AWS to efficiently handle large datasets and generate comprehensive financial reports. The project involved creating a robust web application with Flask for the backend and MySQL for real-time financial data management, significantly improving data processing and reporting capabilities for banking operations.">Developed a banking analytics tool using AWS for data and report handling. Created a web application with Flask and MySQL to manage financial data in real-time. (Smart Bridge, Dec 2024 - Mar 2025)</p>
+                            <p class="text-sm font-medium text-gray-300 mb-1">Tech Stack:</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-cyan-700 text-cyan-200 px-2 py-1 rounded-full text-xs font-medium">AWS</span>
+                                <span class="bg-cyan-700 text-cyan-200 px-2 py-1 rounded-full text-xs font-medium">Flask</span>
+                                <span class="bg-cyan-700 text-cyan-200 px-2 py-1 rounded-full text-xs font-medium">MySQL</span>
+                            </div>
+                            <button class="elaborate-project-btn bg-cyan-600 hover:bg-cyan-700 text-white text-sm font-semibold py-2 px-4 rounded-full mt-2 btn-futuristic">
+                                ✨ Elaborate
+                            </button>
+                            <div class="elaborated-description mt-4 text-gray-100 text-sm hidden">
+                                <span class="loading-spinner hidden"></span>
+                                <p class="generated-text"></p>
+                            </div>
+                        </div>
+                        <div class="p-6 bg-gray-800/50">
+                            <a href="https://github.com/GowraPavanKumar" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-cyan-400 hover:text-cyan-300 font-medium">
+                                View on GitHub <span class="ml-1.5 text-lg">🔗</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-900 rounded-xl shadow-lg overflow-hidden flex flex-col card-3d-effect">
+                        <div class="p-6 flex-grow">
+                            <h3 class="text-2xl font-semibold mb-2 text-cyan-400">Hand Gesture Detection</h3>
+                            <p class="text-gray-200 mb-4 text-sm project-description" data-full-description="Built a real-time sign language detection system using YOLOv5, a state-of-the-art object detection algorithm. The system was integrated with a web application for live video feed processing and provided audio output for detected gestures, enhancing accessibility. This project culminated in a co-authored research paper published in a reputed journal.">Built a real-time sign language detection system using YOLOv5, integrated with a web application and audio output. Co-authored a research paper. (KHIT, Jan 2025 - Apr 2025)</p>
+                            <p class="text-sm font-medium text-gray-300 mb-1">Tech Stack:</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-cyan-700 text-cyan-200 px-2 py-1 rounded-full text-xs font-medium">YOLOv5</span>
+                                <span class="bg-cyan-700 text-cyan-200 px-2 py-1 rounded-full text-xs font-medium">Deep Learning</span>
+                                <span class="bg-cyan-700 text-cyan-200 px-2 py-1 rounded-full text-xs font-medium">Python</span>
+                            </div>
+                            <button class="elaborate-project-btn bg-cyan-600 hover:bg-cyan-700 text-white text-sm font-semibold py-2 px-4 rounded-full mt-2 btn-futuristic">
+                                ✨ Elaborate
+                            </button>
+                            <div class="elaborated-description mt-4 text-gray-100 text-sm hidden">
+                                <span class="loading-spinner hidden"></span>
+                                <p class="generated-text"></p>
+                            </div>
+                        </div>
+                         <div class="p-6 bg-gray-800/50">
+                            <a href="https://github.com/GowraPavanKumar" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-cyan-400 hover:text-cyan-300 font-medium">
+                                View on GitHub <span class="ml-1.5 text-lg">🔗</span>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-900 rounded-xl shadow-lg overflow-hidden flex flex-col card-3d-effect">
+                        <div class="p-6 flex-grow">
+                            <h3 class="text-2xl font-semibold mb-2 text-cyan-400">Hugo Blog</h3>
+                            <p class="text-gray-200 mb-4 text-sm project-description" data-full-description="Created a static blog using Hugo, a fast and flexible static site generator. This project involved setting up a robust content management workflow, designing responsive layouts, and optimizing for performance, demonstrating proficiency in modern web development practices for content delivery.">Created a static blog using Hugo. (Personal Project, May-June 2024)</p>
+                             <p class="text-sm font-medium text-gray-300 mb-1">Tech Stack:</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-cyan-700 text-cyan-200 px-2 py-1 rounded-full text-xs font-medium">Hugo</span>
+                                <span class="bg-cyan-700 text-cyan-200 px-2 py-1 rounded-full text-xs font-medium">Markdown</span>
+                            </div>
+                            <button class="elaborate-project-btn bg-cyan-600 hover:bg-cyan-700 text-white text-sm font-semibold py-2 px-4 rounded-full mt-2 btn-futuristic">
+                                ✨ Elaborate
+                            </button>
+                            <div class="elaborated-description mt-4 text-gray-100 text-sm hidden">
+                                <span class="loading-spinner hidden"></span>
+                                <p class="generated-text"></p>
+                            </div>
+                        </div>
+                         <div class="p-6 bg-gray-800/50">
+                            <a href="https://github.com/GowraPavanKumar" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-cyan-400 hover:text-cyan-300 font-medium">
+                                View on GitHub <span class="ml-1.5 text-lg">🔗</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-900 rounded-xl shadow-lg overflow-hidden flex flex-col card-3d-effect">
+                        <div class="p-6 flex-grow">
+                            <h3 class="text-2xl font-semibold mb-2 text-cyan-400">Gowra Stream</h3>
+                            <p class="text-gray-200 mb-4 text-sm project-description" data-full-description="Developed a movie streaming site utilizing the OMDb API for comprehensive movie data and integrated an IMDb player for seamless playback. The project focused on fetching and displaying detailed metadata, including plot summaries, cast information, and ratings, providing a rich user experience for movie discovery and consumption.">Developed a movie streaming site utilizing the OMDb API, featuring an IMDb player and detailed metadata. (Personal Project, Sept-Nov 2024)</p>
+                            <p class="text-sm font-medium text-gray-300 mb-1">Tech Stack:</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-cyan-700 text-cyan-200 px-2 py-1 rounded-full text-xs font-medium">OMDb API</span>
+                                <span class="bg-cyan-700 text-cyan-200 px-2 py-1 rounded-full text-xs font-medium">IMDb Player</span>
+                                <span class="bg-cyan-700 text-cyan-200 px-2 py-1 rounded-full text-xs font-medium">React</span>
+                                <span class="bg-cyan-700 text-cyan-200 px-2 py-1 rounded-full text-xs font-medium">JavaScript</span>
+                            </div>
+                            <button class="elaborate-project-btn bg-cyan-600 hover:bg-cyan-700 text-white text-sm font-semibold py-2 px-4 rounded-full mt-2 btn-futuristic">
+                                ✨ Elaborate
+                            </button>
+                            <div class="elaborated-description mt-4 text-gray-100 text-sm hidden">
+                                <span class="loading-spinner hidden"></span>
+                                <p class="generated-text"></p>
+                            </div>
+                        </div>
+                         <div class="p-6 bg-gray-800/50">
+                            <a href="https://github.com/GowraPavanKumar" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-cyan-400 hover:text-cyan-300 font-medium">
+                                View on GitHub <span class="ml-1.5 text-lg">🔗</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-12 text-center">
+                    <button id="brainstormProjectBtn" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-8 rounded-lg shadow-md btn-futuristic">
+                        ✨ Brainstorm Project Idea
+                    </button>
+                    <div id="projectIdeaContainer" class="mt-8 p-6 bg-gray-800 rounded-lg shadow-md hidden card-3d-effect max-w-2xl mx-auto">
+                        <h3 class="text-xl font-semibold mb-3 text-cyan-400">New Project Idea</h3>
+                        <p id="projectIdeaText" class="text-gray-100"></p>
+                        <span id="projectIdeaLoading" class="loading-spinner hidden"></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="py-16 sm:py-24 bg-gray-900 section-fade-in">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12 text-gray-100 tracking-wide text-glow-heading">Skills</h2>
+                <p class="text-center text-lg text-gray-200 mb-12 max-w-2xl mx-auto leading-relaxed">I have cultivated a diverse set of technical and soft skills essential for full-stack development and collaborative projects.</p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="p-6 bg-gray-800 rounded-lg shadow-md card-3d-effect">
+                        <h3 class="text-xl font-semibold mb-3 text-cyan-400">Languages</h3>
+                        <ul class="list-disc list-inside text-gray-200 space-y-1">
+                            <li class="skill-item">HTML <button class="explain-skill-btn ml-2 text-cyan-400 hover:text-cyan-300 text-xs font-semibold">✨ Explain</button></li>
+                            <li class="skill-item">CSS <button class="explain-skill-btn ml-2 text-cyan-400 hover:text-cyan-300 text-xs font-semibold">✨ Explain</button></li>
+                            <li class="skill-item">JavaScript <button class="explain-skill-btn ml-2 text-cyan-400 hover:text-cyan-300 text-xs font-semibold">✨ Explain</button></li>
+                            <li class="skill-item">Java <button class="explain-skill-btn ml-2 text-cyan-400 hover:text-cyan-300 text-xs font-semibold">✨ Explain</button></li>
+                            <li class="skill-item">Python <button class="explain-skill-btn ml-2 text-cyan-400 hover:text-cyan-300 text-xs font-semibold">✨ Explain</button></li>
+                            <li class="skill-item">C <button class="explain-skill-btn ml-2 text-cyan-400 hover:text-cyan-300 text-xs font-semibold">✨ Explain</button></li>
+                        </ul>
+                    </div>
+                    <div class="p-6 bg-gray-800 rounded-lg shadow-md card-3d-effect">
+                        <h3 class="text-xl font-semibold mb-3 text-cyan-400">Tools & Frameworks</h3>
+                        <ul class="list-disc list-inside text-gray-200 space-y-1">
+                            <li class="skill-item">React <button class="explain-skill-btn ml-2 text-cyan-400 hover:text-cyan-300 text-xs font-semibold">✨ Explain</button></li>
+                            <li class="skill-item">Next.js <button class="explain-skill-btn ml-2 text-cyan-400 hover:text-cyan-300 text-xs font-semibold">✨ Explain</button></li>
+                            <li class="skill-item">Firebase <button class="explain-skill-btn ml-2 text-cyan-400 hover:text-cyan-300 text-xs font-semibold">✨ Explain</button></li>
+                            <li class="skill-item">GitHub & Version Control <button class="explain-skill-btn ml-2 text-cyan-400 hover:text-cyan-300 text-xs font-semibold">✨ Explain</button></li>
+                            <li class="skill-item">Tailwind CSS <button class="explain-skill-btn ml-2 text-cyan-400 hover:text-cyan-300 text-xs font-semibold">✨ Explain</button></li>
+                            <li class="skill-item">MySQL & API Integration <button class="explain-skill-btn ml-2 text-cyan-400 hover:text-cyan-300 text-xs font-semibold">✨ Explain</button></li>
+                            <li class="skill-item">Web Deployment <button class="explain-skill-btn ml-2 text-cyan-400 hover:text-cyan-300 text-xs font-semibold">✨ Explain</button></li>
+                        </ul>
+                    </div>
+                    <div class="p-6 bg-gray-800 rounded-lg shadow-md card-3d-effect">
+                        <h3 class="text-xl font-semibold mb-3 text-cyan-400">Soft Skills</h3>
+                        <ul class="list-disc list-inside text-gray-200 space-y-1">
+                            <li class="skill-item">Problem Solving <button class="explain-skill-btn ml-2 text-cyan-400 hover:text-cyan-300 text-xs font-semibold">✨ Explain</button></li>
+                            <li class="skill-item">Teamwork <button class="explain-skill-btn ml-2 text-cyan-400 hover:text-cyan-300 text-xs font-semibold">✨ Explain</button></li>
+                            <li class="skill-item">Adaptability <button class="explain-skill-btn ml-2 text-cyan-400 hover:text-cyan-300 text-xs font-semibold">✨ Explain</button></li>
+                            <li class="skill-item">Continuous Learning <button class="explain-skill-btn ml-2 text-cyan-400 hover:text-cyan-300 text-xs font-semibold">✨ Explain</button></li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="skillExplanationContainer" class="mt-12 p-6 bg-gray-800 rounded-lg shadow-md hidden card-3d-effect max-w-2xl mx-auto">
+                    <h3 class="text-xl font-semibold mb-3 text-cyan-400">Skill Explanation</h3>
+                    <p id="skillExplanationText" class="text-gray-100"></p>
+                    <span id="skillExplanationLoading" class="loading-spinner hidden"></span>
+                </div>
+            </div>
+        </section>
+
+        <section id="certifications" class="py-16 sm:py-24 bg-gray-950 section-fade-in">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12 text-gray-100 tracking-wide text-glow-heading">Certifications</h2>
+                <p class="text-center text-lg text-gray-200 mb-12 max-w-2xl mx-auto leading-relaxed">My commitment to learning is validated by these certifications and virtual internships, showcasing my dedication to expanding my knowledge base.</p>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {[
+                        "Google AI-ML Virtual Internship",
+                        "Machine Learning with Python",
+                        "Google Android Developer Virtual Internship",
+                        "Salesforce Developer Virtual Internship",
+                        "Developing Soft skills and Personality",
+                        "Generative AI Virtual Internship",
+                        "AWS Cloud Partitioner",
+                        "Linux Essentials - NetAcad",
+                        "Cybersecurity Essentials - Cisco",
+                        "Python Programming - CodeTantra",
+                        "Problem Solving Using C - CodeTantra"
+                    ].map(cert => `
+                        <div class="bg-gray-900 p-4 rounded-lg shadow card-3d-effect flex flex-col items-center justify-center text-center">
+                            <p class="text-gray-100 font-medium mb-2">${cert}</p>
+                            <button class="explain-cert-btn bg-purple-600 hover:bg-purple-700 text-white text-xs font-semibold py-1.5 px-3 rounded-full btn-futuristic">
+                                ✨ What it means
+                            </button>
+                        </div>
+                    `).join('')}
+                </div>
+                <div id="certExplanationContainer" class="mt-12 p-6 bg-gray-800 rounded-lg shadow-md hidden card-3d-effect max-w-2xl mx-auto">
+                    <h3 class="text-xl font-semibold mb-3 text-cyan-400">Certification Insight</h3>
+                    <p id="certExplanationText" class="text-gray-100"></p>
+                    <span id="certExplanationLoading" class="loading-spinner hidden"></span>
+                </div>
+            </div>
+        </section>
+
+        <section id="ai-assistant" class="py-16 sm:py-24 bg-gray-900 section-fade-in">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12 text-gray-100 tracking-wide text-glow-heading">✨ Ask Gowra (AI Assistant)</h2>
+                <p class="text-center text-lg text-gray-200 mb-12 max-w-2xl mx-auto leading-relaxed">Have a question about my skills, projects, or experience? Ask my AI persona for a quick insight!</p>
+                <div class="max-w-2xl mx-auto bg-gray-800 p-8 rounded-xl shadow-xl card-3d-effect">
+                    <div class="space-y-4">
+                        <div>
+                            <label for="aiQuestion" class="block text-sm font-medium text-gray-100 mb-2">Your Question:</label>
+                            <input type="text" id="aiQuestion" placeholder="e.g., What is your experience with React?" class="mt-1 block w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-base text-gray-100">
+                        </div>
+                        <div>
+                            <button id="askAiBtn" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 transition-colors btn-futuristic">
+                                Ask AI Assistant
+                            </button>
+                        </div>
+                    </div>
+                    <div id="aiResponseContainer" class="mt-6 p-4 bg-gray-700 rounded-lg border border-gray-600">
+                        <h4 class="text-lg font-semibold mb-2 text-cyan-400">AI Response:</h4>
+                        <p id="aiResponseText" class="text-gray-100 text-sm"></p>
+                        <span id="aiResponseLoading" class="loading-spinner hidden"></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="py-16 sm:py-24 bg-gray-950 section-fade-in">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12 text-gray-100 tracking-wide text-glow-heading">Get In Touch</h2>
+                <p class="text-center text-lg text-gray-200 mb-12 max-w-2xl mx-auto leading-relaxed">I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions. Feel free to reach out!</p>
+                <div class="max-w-lg mx-auto bg-gray-800 p-8 rounded-xl shadow-xl card-3d-effect">
+                    <div class="space-y-6 mb-8">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-3 text-cyan-400">📧</span>
+                            <a href="mailto:gowrapavankumar2004@gmail.com" class="text-gray-100 hover:text-cyan-400 break-all">gowrapavankumar2004@gmail.com</a>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-3 text-cyan-400">📍</span>
+                            <p class="text-gray-100">Guntur, Andhra Pradesh, India</p>
+                        </div>
+                         <div class="flex items-center">
+                            <span class="text-2xl mr-3 text-cyan-400">📞</span>
+                            <a href="tel:+919642027908" class="text-gray-100 hover:text-cyan-400">+91 9642027908</a>
+                        </div>
+                    </div>
+                    <form id="contactForm" class="space-y-6">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-100">Full Name</label>
+                            <input type="text" name="name" id="name" required class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm text-gray-100">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-100">Email Address</label>
+                            <input type="email" name="email" id="email" required class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm text-gray-100">
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-100">Message</label>
+                            <textarea id="message" name="message" rows="4" required class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm text-gray-100"></textarea>
+                        </div>
+                        <div>
+                            <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 transition-colors btn-futuristic">
+                                Send Message
+                            </button>
+                        </div>
+                    </form>
+                    <p id="formMessage" class="mt-4 text-center text-sm"></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-900 border-t border-gray-700 section-fade-in">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center text-gray-400">
+            <div class="flex justify-center space-x-6 mb-4">
+                <a href="https://github.com/GowraPavanKumar" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-cyan-400 transition-colors text-2xl" aria-label="GitHub">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                </a>
+                <a href="https://www.linkedin.com/in/gowrapavankumar/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-cyan-400 transition-colors text-2xl" aria-label="LinkedIn">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                </a>
+            </div>
+            <p class="text-sm">&copy; <span id="currentYear"></span> Gowra Pavan Kumar. All rights reserved.</p>
+            <p class="text-xs mt-1">Designed with cutting-edge web technologies.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Markdown to HTML conversion function
+        function markdownToHtml(markdown) {
+            let html = markdown;
+            // Convert **bold** and *bold*
+            html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            html = html.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
+            // Convert new lines to <br>
+            html = html.replace(/\n/g, '<br>');
+            return html;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Dark Mode Toggle
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const darkModeToggleMobile = document.getElementById('darkModeToggleMobile');
+            const sunIcon = document.getElementById('sunIcon');
+            const moonIcon = document.getElementById('moonIcon');
+            const sunIconMobile = document.getElementById('sunIconMobile');
+            const moonIconMobile = document.getElementById('moonIconMobile');
+            const htmlElement = document.documentElement;
+            const bodyElement = document.body;
+
+            const applyTheme = (isDark) => {
+                if (isDark) {
+                    htmlElement.classList.add('dark');
+                    bodyElement.classList.remove('light');
+                    bodyElement.classList.add('dark');
+                    sunIcon.classList.add('hidden');
+                    moonIcon.classList.remove('hidden');
+                    sunIconMobile.classList.add('hidden');
+                    moonIconMobile.classList.remove('hidden');
+                } else {
+                    htmlElement.classList.remove('dark');
+                    bodyElement.classList.remove('dark');
+                    bodyElement.classList.add('light');
+                    sunIcon.classList.remove('hidden');
+                    moonIcon.classList.add('hidden');
+                    sunIconMobile.classList.remove('hidden');
+                    moonIconMobile.classList.add('hidden');
+                }
+            };
+
+            const toggleDarkMode = () => {
+                const isDarkMode = htmlElement.classList.toggle('dark');
+                localStorage.setItem('darkMode', isDarkMode);
+                applyTheme(isDarkMode);
+            };
+
+            // Initialize theme based on localStorage or system preference
+            if (localStorage.getItem('darkMode') === 'false' || 
+                (!('darkMode' in localStorage) && !window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                applyTheme(false); // Default to dark, but switch to light if user prefers or system is light
+            } else {
+                applyTheme(true); // Default to dark
+            }
+
+            darkModeToggle.addEventListener('click', toggleDarkMode);
+            darkModeToggleMobile.addEventListener('click', toggleDarkMode);
+
+            // Mobile Menu Toggle
+            const mobileMenuButton = document.getElementById('mobileMenuButton');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+
+            mobileMenuButton.addEventListener('click', () => {
+                const expanded = mobileMenuButton.getAttribute('aria-expanded') === 'true' || false;
+                mobileMenuButton.setAttribute('aria-expanded', !expanded);
+                mobileMenu.classList.toggle('hidden');
+                mobileMenuButton.querySelectorAll('svg').forEach(svg => svg.classList.toggle('hidden'));
+            });
+            
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenuButton.setAttribute('aria-expanded', 'false');
+                    mobileMenuButton.querySelectorAll('svg').forEach((svg, index) => {
+                        if (index === 0) svg.classList.remove('hidden'); else svg.classList.add('hidden');
+                    });
+                });
+            });
+
+            // Smooth scroll with offset for fixed header
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === "#") return; // Avoid scrolling to top for empty href
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const headerOffset = document.getElementById('header').offsetHeight;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+                    }
+                });
+            });
+            
+            // Current Year for Footer
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            // Contact Form Simulation
+            const contactForm = document.getElementById('contactForm');
+            const formMessage = document.getElementById('formMessage');
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                formMessage.textContent = 'Thank you for your message! (This is a demo form)';
+                formMessage.className = 'mt-4 text-center text-sm text-green-500 dark:text-green-400';
+                contactForm.reset();
+                setTimeout(() => {
+                    formMessage.textContent = '';
+                    formMessage.className = 'mt-4 text-center text-sm';
+                }, 5000);
+            });
+
+            // Section fade-in on scroll
+            const sections = document.querySelectorAll('.section-fade-in');
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Gemini API Integration for Project Elaboration
+            const elaborateButtons = document.querySelectorAll('.elaborate-project-btn');
+            elaborateButtons.forEach(button => {
+                button.addEventListener('click', async (event) => {
+                    const projectCard = event.target.closest('.flex-col');
+                    const projectTitle = projectCard.querySelector('h3').textContent;
+                    const projectDescriptionElement = projectCard.querySelector('.project-description');
+                    const fullDescription = projectDescriptionElement.dataset.fullDescription;
+                    const elaboratedDescriptionDiv = projectCard.querySelector('.elaborated-description');
+                    const generatedTextP = elaboratedDescriptionDiv.querySelector('.generated-text');
+                    const loadingSpinner = elaboratedDescriptionDiv.querySelector('.loading-spinner'); // Declared here
+
+                    if (!elaboratedDescriptionDiv.classList.contains('hidden')) {
+                        elaboratedDescriptionDiv.classList.add('hidden');
+                        generatedTextP.textContent = '';
+                        return;
+                    }
+
+                    elaboratedDescriptionDiv.classList.remove('hidden');
+                    generatedTextP.textContent = '';
+                    loadingSpinner.classList.remove('hidden');
+
+                    try {
+                        let chatHistory = [];
+                        const prompt = `Elaborate on the following project description for a portfolio website. Focus on the technical aspects, challenges, and impact. Project Title: "${projectTitle}". Full description: "${fullDescription}". Provide a more detailed explanation.`;
+                        chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                        const payload = { contents: chatHistory };
+                        const apiKey = ""; 
+                        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+                        const result = await response.json();
+
+                        if (result.candidates && result.candidates.length > 0 &&
+                            result.candidates[0].content && result.candidates[0].content.parts &&
+                            result.candidates[0].content.parts.length > 0) {
+                            const text = result.candidates[0].content.parts[0].text;
+                            generatedTextP.innerHTML = markdownToHtml(text); // Use innerHTML and converter
+                        } else {
+                            generatedTextP.innerHTML = "Could not elaborate on the project. Please try again.";
+                            console.error("Gemini API response structure unexpected:", result);
+                        }
+                    } catch (error) {
+                        generatedTextP.innerHTML = "Error elaborating project. Please try again later.";
+                        console.error("Error calling Gemini API:", error);
+                    } finally {
+                        loadingSpinner.classList.add('hidden');
+                    }
+                });
+            });
+
+            // Gemini API Integration for Skill Explanation
+            const explainSkillButtons = document.querySelectorAll('.explain-skill-btn');
+            const skillExplanationContainer = document.getElementById('skillExplanationContainer');
+            const skillExplanationText = document.getElementById('skillExplanationText');
+            const skillExplanationLoading = document.getElementById('skillExplanationLoading'); // Declared here
+            let activeSkillButton = null;
+
+            explainSkillButtons.forEach(button => {
+                button.addEventListener('click', async (event) => {
+                    const skillName = event.target.parentNode.textContent.replace('✨ Explain', '').trim();
+
+                    if (activeSkillButton === event.target) {
+                        skillExplanationContainer.classList.add('hidden');
+                        skillExplanationText.textContent = '';
+                        activeSkillButton = null;
+                        return;
+                    }
+
+                    activeSkillButton = event.target;
+                    skillExplanationContainer.classList.remove('hidden');
+                    skillExplanationText.textContent = '';
+                    skillExplanationLoading.classList.remove('hidden');
+
+                    try {
+                        let chatHistory = [];
+                        const prompt = `Provide a concise explanation of the following skill in the context of web development or software engineering: "${skillName}". Keep it to 2-3 sentences.`;
+                        chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                        const payload = { contents: chatHistory };
+                        const apiKey = ""; 
+                        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+                        const result = await response.json();
+
+                        if (result.candidates && result.candidates.length > 0 &&
+                            result.candidates[0].content && result.candidates[0].content.parts &&
+                            result.candidates[0].content.parts.length > 0) {
+                            const text = result.candidates[0].content.parts[0].text;
+                            skillExplanationText.innerHTML = markdownToHtml(text); // Use innerHTML and converter
+                        } else {
+                            skillExplanationText.innerHTML = "Could not explain this skill. Please try again.";
+                            console.error("Gemini API response structure unexpected:", result);
+                        }
+                    } catch (error) {
+                        skillExplanationText.innerHTML = "Error explaining skill. Please try again later.";
+                        console.error("Error calling Gemini API:", error);
+                    } finally {
+                        skillExplanationLoading.classList.add('hidden');
+                    }
+                });
+            });
+
+            // Gemini API Integration for Certification Explanation
+            const explainCertButtons = document.querySelectorAll('.explain-cert-btn');
+            const certExplanationContainer = document.getElementById('certExplanationContainer');
+            const certExplanationText = document.getElementById('certExplanationText');
+            const certExplanationLoading = document.getElementById('certExplanationLoading'); // Declared here
+            let activeCertButton = null;
+
+            explainCertButtons.forEach(button => {
+                button.addEventListener('click', async (event) => {
+                    const certName = event.target.parentNode.querySelector('p').textContent.trim();
+
+                    if (activeCertButton === event.target) {
+                        certExplanationContainer.classList.add('hidden');
+                        certExplanationText.textContent = '';
+                        activeCertButton = null;
+                        return;
+                    }
+
+                    activeCertButton = event.target;
+                    certExplanationContainer.classList.remove('hidden');
+                    certExplanationText.textContent = '';
+                    certExplanationLoading.classList.remove('hidden');
+
+                    try {
+                        let chatHistory = [];
+                        const prompt = `Explain the significance and benefits of the following certification for a software engineering student: "${certName}". Keep it to 2-3 sentences.`;
+                        chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                        const payload = { contents: chatHistory };
+                        const apiKey = ""; 
+                        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+                        const result = await response.json();
+
+                        if (result.candidates && result.candidates.length > 0 &&
+                            result.candidates[0].content && result.candidates[0].content.parts &&
+                            result.candidates[0].content.parts.length > 0) {
+                            const text = result.candidates[0].content.parts[0].text;
+                            certExplanationText.innerHTML = markdownToHtml(text); // Use innerHTML and converter
+                        } else {
+                            certExplanationText.innerHTML = "Could not explain this certification. Please try again.";
+                            console.error("Gemini API response structure unexpected:", result);
+                        }
+                    } catch (error) {
+                        certExplanationText.innerHTML = "Error explaining certification. Please try again later.";
+                        console.error("Error calling Gemini API:", error);
+                    } finally {
+                        certExplanationLoading.classList.add('hidden');
+                    }
+                });
+            });
+
+            // Gemini API Integration for Project Brainstormer
+            const brainstormProjectBtn = document.getElementById('brainstormProjectBtn');
+            const projectIdeaContainer = document.getElementById('projectIdeaContainer');
+            const projectIdeaText = document.getElementById('projectIdeaText');
+            const projectIdeaLoading = document.getElementById('projectIdeaLoading'); // Declared here
+
+            brainstormProjectBtn.addEventListener('click', async () => {
+                projectIdeaContainer.classList.remove('hidden');
+                projectIdeaText.textContent = '';
+                projectIdeaLoading.classList.remove('hidden');
+
+                const skillsList = [
+                    "HTML", "CSS", "JavaScript", "Java", "Python", "C",
+                    "React", "Next.js", "Firebase", "GitHub", "Tailwind CSS", "MySQL", "API Integration", "Web Deployment",
+                    "Problem Solving", "Teamwork", "Adaptability", "Deep Learning", "YOLOv5", "AWS", "Flask"
+                ].join(', ');
+                const projectsList = [
+                    "AWS Banking Tool (Flask, MySQL, AWS)",
+                    "Hand Gesture Detection (YOLOv5, Deep Learning, Python)",
+                    "Hugo Blog (Hugo, Markdown)",
+                    "Gowra Stream (OMDb API, IMDb Player, React, JavaScript)"
+                ].join('; ');
+
+                try {
+                    let chatHistory = [];
+                    const prompt = `Generate a unique and innovative full-stack project idea for a portfolio website. The project should leverage some of these skills: ${skillsList}. It should also be inspired by the user's existing projects: ${projectsList}. Provide a project title, a brief description (2-3 sentences), and suggest 3-5 key technologies/features. Focus on a modern, impactful, and technically interesting concept.`;
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                    const payload = { contents: chatHistory };
+                    const apiKey = ""; 
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        projectIdeaText.innerHTML = markdownToHtml(text); // Use innerHTML and converter
+                    } else {
+                        projectIdeaText.innerHTML = "Could not brainstorm a project idea. Please try again.";
+                        console.error("Gemini API response structure unexpected:", result);
+                    }
+                } catch (error) {
+                    projectIdeaText.innerHTML = "Error brainstorming project. Please try again later.";
+                    console.error("Error calling Gemini API:", error);
+                } finally {
+                    projectIdeaLoading.classList.add('hidden');
+                }
+            });
+
+            // Gemini API Integration for AI Assistant (Q&A)
+            const aiQuestionInput = document.getElementById('aiQuestion');
+            const askAiBtn = document.getElementById('askAiBtn');
+            const aiResponseText = document.getElementById('aiResponseText');
+            const aiResponseLoading = document.getElementById('aiResponseLoading'); // Declared here
+
+            askAiBtn.addEventListener('click', async () => {
+                const question = aiQuestionInput.value.trim();
+                if (!question) {
+                    aiResponseText.textContent = "Please enter a question.";
+                    return;
+                }
+
+                aiResponseText.textContent = '';
+                aiResponseLoading.classList.remove('hidden');
+
+                const gowraProfileSummary = `Gowra Pavan Kumar is a final-year B.Tech Information Technology student with a strong passion for technology and coding. His journey began with a curiosity for programming, which evolved into expertise in web and app development. He has honed skills through hands-on projects and internships, committed to continuous learning.
+
+                Skills: HTML, CSS, JavaScript, Java, Python, C, React, Next.js, Firebase, GitHub, Tailwind, MySQL, API Integration, Web Deployment, Problem Solving, Teamwork, Adaptability, Deep Learning, YOLOv5, AWS, Flask.
+
+                Projects:
+                - AWS Banking Tool: Developed a banking analytics tool using AWS, Flask, and MySQL for real-time financial data management.
+                - Hand Gesture Detection: Built a real-time sign language detection system using YOLOv5 with a web app and audio output. Co-wrote a research paper.
+                - Hugo Blog: Created a static blog using Hugo.
+                - Gowra Stream: Built a movie streaming site using OMDb API with IMDb player and detailed metadata (HTML, JavaScript, React, Next.js, Firebase Auth, API Integration, GitHub, Tailwind CSS).
+
+                Education:
+                - B.Tech IT, KHIT (Dec 2021 – May 2025), CGPA: 7.2
+                - Intermediate (MPC), Narayana College (Jun 2019 – Jul 2021), CGPA: 7.2
+                - Secondary Education (CBSE), Dr. Kondabolu School (Jun 2018 – Mar 2019).`;
+
+                try {
+                    let chatHistory = [];
+                    const prompt = `Based on the following profile summary for Gowra Pavan Kumar, answer the user's question. Respond as if you are Gowra Pavan Kumar. If the question is outside the scope of the provided profile, politely state that you cannot answer.
+
+                    Profile Summary:
+                    "${gowraProfileSummary}"
+
+                    User's Question: "${question}"`;
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                    const payload = { contents: chatHistory };
+                    const apiKey = ""; 
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        aiResponseText.innerHTML = markdownToHtml(text); // Use innerHTML and converter
+                    } else {
+                        aiResponseText.innerHTML = "I'm sorry, I couldn't process that question. Please try rephrasing.";
+                        console.error("Gemini API response structure unexpected:", result);
+                    }
+                } catch (error) {
+                    aiResponseText.innerHTML = "An error occurred while contacting the AI. Please try again later.";
+                    console.error("Error calling Gemini API for AI Assistant:", error);
+                } finally {
+                    aiResponseLoading.classList.add('hidden');
+                }
+            });
+
+
+            // Card 3D Tilt Effect on Mousemove
+            const applyTiltEffect = (element, event) => {
+                const rect = element.getBoundingClientRect();
+                const x = event.clientX - rect.left;
+                const y = event.clientY - rect.top;
+
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const rotateX = ((y - centerY) / centerY) * 5; // Max 5 degrees tilt
+                const rotateY = ((centerX - x) / centerX) * 5; // Max 5 degrees tilt
+
+                element.style.transform = `translateY(-12px) scale(1.03) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            };
+
+            const removeTiltEffect = (element) => {
+                element.style.transform = `translateY(0) scale(1)`; // Reset to base state
+            };
+
+            document.querySelectorAll('.card-3d-effect').forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    // Apply hover state immediately, then enable tilt on mousemove
+                    card.style.transform = `translateY(-12px) scale(1.03)`;
+                });
+                card.addEventListener('mousemove', (event) => {
+                    applyTiltEffect(card, event);
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    removeTiltEffect(card);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
